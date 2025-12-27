@@ -74,12 +74,13 @@
             width: max-content;
             gap: 25px;
             padding: 40px 20px;
+            will-change: transform; /* Optimasi hardware acceleration */
         }
         .photo-card {
             flex-shrink: 0;
             width: 260px;
             box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border-radius: 1.5rem;
             background: white;
             padding: 12px;
@@ -101,8 +102,8 @@
             100% { transform: scale(2) translateY(-50px); opacity: 0; }
         }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* Initial State for GSAP Reveal */
+        .reveal { opacity: 0; transform: translateY(40px); }
 
         .love-checkbox input:checked + .wish-card .heart-box {
             background: #ef4444 !important;
@@ -144,7 +145,7 @@
 
     <!-- 1. OPENING SCREEN -->
     <div id="openingScreen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#020617] p-6">
-        <div class="w-full max-w-sm text-center">
+        <div class="w-full max-sm text-center">
             <div class="bg-white p-8 rounded-[2.5rem] shadow-[0_40px_80px_-15px_rgba(0,0,0,0.8)] transform rotate-[-1deg]">
                 <div class="border-2 border-dashed border-stone-100 p-8 rounded-[2rem]">
                     <div class="animate-bounce">
@@ -194,7 +195,7 @@
         <!-- 3. MOMENTS -->
         <section class="py-24 overflow-hidden">
             <div class="reveal text-center mb-16 px-6">
-                <h2 class="text-3xl md:text-5xl font-serif mb-4">Galeri Kebahagiaan</h2>
+                <h2 class="text-3xl md:text-5xl font-serif mb-4 adaptive-text">Galeri Kebahagiaan</h2>
                 <div class="w-16 h-1 bg-amber-500 mx-auto rounded-full mb-6"></div>
                 <p class="text-stone-500 text-sm italic max-w-xs mx-auto adaptive-subtext">Setiap langkah kita adalah seni yang abadi.</p>
             </div>
@@ -221,7 +222,7 @@
                     </div>
                     <div class="photo-card transform rotate-[-2deg]">
                         <div class="w-full h-72 overflow-hidden rounded-xl">
-                            <img src="aset/wod.webp" class="w-full h-full object-cover" alt="Moment 3">
+                            <img src="aset/wod.webp" class="w-full h-full object-cover" alt="Moment 4">
                         </div>
                         <p class="font-handwriting text-stone-800 text-2xl mt-4 text-center">Warm Hug</p>
                     </div>
@@ -235,14 +236,13 @@
                 <div class="absolute -top-10 left-1/2 -translate-x-1/2 md:left-20 md:translate-x-0 z-10">
                     <div class="animate-float">
                         <div class="w-32 h-32 rounded-[2rem] border-8 border-white/5 overflow-hidden shadow-2xl rotate-[10deg]">
-                            <img src="aset/wud.webp" alt="Kita">
+                            <img src="aset/wud.webp" class="w-full h-full object-cover" alt="Kita">
                         </div>
                     </div>
                 </div>
                 <div class="mt-16 space-y-8">
                     <h3 class="font-handwriting text-5xl text-amber-500">Fanya Sayang,</h3>
-                    <!-- FIXED: Font letter diganti ke Handwriting agar tidak kaku -->
-                    <div class="space-y-6 text-2xl md:text-3xl font-handwriting leading-relaxed opacity-90 adaptive-text">
+                    <div class="letter-reveal-content space-y-6 text-2xl md:text-3xl font-handwriting leading-relaxed opacity-90 adaptive-text">
                         <p>Tahun 2025 ini telah memberi kita ribuan cerita. Terima kasih sudah tetap sabar dan menjadi rumah yang selalu aku tuju.</p>
                         <p>Di 2026 nanti, aku ingin kita tetap seperti ini. Tidak perlu sempurna, asal kita selalu berdua.</p>
                     </div>
@@ -255,45 +255,45 @@
         </section>
 
         <!-- 5. INTERACTIVE WISHLIST -->
-        <section class="py-24 px-6 text-center">
+        <section id="wishlist" class="py-24 px-6 text-center">
             <div class="reveal max-w-md mx-auto space-y-10">
                 <h3 class="text-2xl font-serif italic adaptive-text">"Apa harapanmu di 2026?"</h3>
                 <div class="space-y-4">
-                    <label class="love-checkbox block cursor-pointer group">
-                        <input type="checkbox" class="hidden">
+                    <label class="wish-item block cursor-pointer group">
+                        <input type="checkbox" class="love-checkbox hidden">
                         <div class="wish-card p-5 glass-card rounded-2xl flex items-center justify-between transition-all group-active:scale-95">
-                            <p class="font-serif text-lg text-left">Traveling ke tempat baru berdua</p>
+                            <p class="font-serif text-lg text-left adaptive-text">Traveling ke tempat baru berdua</p>
                             <div class="heart-box w-10 h-10 rounded-full border border-amber-500/30 flex items-center justify-center text-amber-500 flex-shrink-0">
                                 <i data-lucide="heart" class="w-5 h-5"></i>
                             </div>
                         </div>
                     </label>
-                    <label class="love-checkbox block cursor-pointer group">
-                        <input type="checkbox" class="hidden">
+                    <label class="wish-item block cursor-pointer group">
+                        <input type="checkbox" class="love-checkbox hidden">
                         <div class="wish-card p-5 glass-card rounded-2xl flex items-center justify-between transition-all group-active:scale-95">
-                            <p class="font-serif text-lg text-left">Lebih banyak waktu Deep Talk</p>
+                            <p class="font-serif text-lg text-left adaptive-text">Lebih banyak waktu Deep Talk</p>
                             <div class="heart-box w-10 h-10 rounded-full border border-amber-500/30 flex items-center justify-center text-amber-500 flex-shrink-0">
                                 <i data-lucide="heart" class="w-5 h-5"></i>
                             </div>
                         </div>
                     </label>
-                    <label class="love-checkbox block cursor-pointer group">
-                        <input type="checkbox" class="hidden">
+                    <label class="wish-item block cursor-pointer group">
+                        <input type="checkbox" class="love-checkbox hidden">
                         <div class="wish-card p-5 glass-card rounded-2xl flex items-center justify-between transition-all group-active:scale-95">
-                            <p class="font-serif text-lg text-left">Sehat dan bahagia selamanya</p>
+                            <p class="font-serif text-lg text-left adaptive-text">Sehat dan bahagia selamanya</p>
                             <div class="heart-box w-10 h-10 rounded-full border border-amber-500/30 flex items-center justify-center text-amber-500 flex-shrink-0">
                                 <i data-lucide="heart" class="w-5 h-5"></i>
                             </div>
                         </div>
                     </label>
                 </div>
-                <p class="text-[10px] opacity-40 italic adaptive-subtext uppercase tracking-widest">*Klik love ya, supaya bisa wujudin bareng </p>
+                <p class="reveal text-[10px] opacity-40 italic adaptive-subtext uppercase tracking-widest">*Klik love ya, supaya bisa wujudin bareng </p>
             </div>
         </section>
 
         <!-- 6. WHATSAPP LOVE MESSAGE -->
-        <section class="py-24 px-6 reveal">
-            <div class="max-w-md mx-auto glass-card rounded-[2.5rem] p-8 space-y-6">
+        <section class="py-24 px-6">
+            <div class="reveal max-w-md mx-auto glass-card rounded-[2.5rem] p-8 space-y-6">
                 <div class="flex items-center gap-4 mb-2">
                     <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center text-green-500">
                         <i data-lucide="message-circle" class="w-6 h-6"></i>
@@ -312,10 +312,12 @@
         </section>
 
         <!-- 7. FINAL CTA -->
-        <section class="py-24 text-center px-6 mb-20 reveal">
-            <button onclick="launchFireworks()" class="w-full max-w-sm py-6 bg-gradient-to-br from-amber-400 via-amber-600 to-orange-700 rounded-3xl font-serif text-xl text-white shadow-[0_20px_50px_rgba(217,119,6,0.4)] hover:shadow-amber-500/50 active:scale-95 transition-all uppercase tracking-[0.3em] font-bold">
-                Mulai 2026 ✨
-            </button>
+        <section class="py-24 text-center px-6 mb-20">
+            <div class="reveal">
+                <button onclick="launchFireworks()" class="w-full max-w-sm py-6 bg-gradient-to-br from-amber-400 via-amber-600 to-orange-700 rounded-3xl font-serif text-xl text-white shadow-[0_20px_50px_rgba(217,119,6,0.4)] hover:shadow-amber-500/50 active:scale-95 transition-all uppercase tracking-[0.3em] font-bold">
+                    Mulai 2026 ✨
+                </button>
+            </div>
         </section>
 
         <footer class="pb-32 text-center opacity-20 adaptive-subtext transition-colors duration-1000">
@@ -358,10 +360,14 @@
             const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById('days').innerText = d.toString().padStart(2, '0');
-            document.getElementById('hours').innerText = h.toString().padStart(2, '0');
-            document.getElementById('mins').innerText = m.toString().padStart(2, '0');
-            document.getElementById('secs').innerText = s.toString().padStart(2, '0');
+            
+            const daysEl = document.getElementById('days');
+            if (daysEl) {
+                daysEl.innerText = d.toString().padStart(2, '0');
+                document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+                document.getElementById('mins').innerText = m.toString().padStart(2, '0');
+                document.getElementById('secs').innerText = s.toString().padStart(2, '0');
+            }
         }
         setInterval(updateCountdown, 1000);
 
@@ -376,20 +382,66 @@
             setTimeout(() => heart.remove(), 1000);
         }
 
+        // PERBAIKAN: GSAP Marquee untuk slider super smooth
         function initAutoSlider() {
             const track = document.getElementById('sliderTrack');
-            track.innerHTML += track.innerHTML; 
+            if (!track) return;
+            
+            // Clone inner content for infinite loop
+            const originalContent = track.innerHTML;
+            track.innerHTML = originalContent + originalContent;
+            
             const totalWidth = track.scrollWidth / 2;
-            gsap.to(track, { x: -totalWidth, duration: 30, ease: "none", repeat: -1 });
+            
+            gsap.to(track, {
+                x: -totalWidth,
+                duration: 40,
+                ease: "none",
+                repeat: -1,
+                overwrite: "auto"
+            });
         }
 
+        // PERBAIKAN: Scroll Reveal profesional satu per satu
         function initScrollReveal() {
-            document.querySelectorAll('.reveal').forEach(el => {
-                ScrollTrigger.create({ 
-                    trigger: el, 
-                    start: "top 85%", 
-                    onEnter: () => el.classList.add('active') 
+            document.querySelectorAll('.reveal').forEach((el, i) => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power3.out"
                 });
+            });
+
+            // Stagger for Wishlist items
+            gsap.from(".wish-item", {
+                scrollTrigger: {
+                    trigger: "#wishlist",
+                    start: "top 80%"
+                },
+                opacity: 0,
+                x: -20,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power2.out"
+            });
+
+            // Stagger for Letter paragraphs
+            gsap.from(".letter-reveal-content p", {
+                scrollTrigger: {
+                    trigger: ".letter-reveal-content",
+                    start: "top 80%"
+                },
+                opacity: 0,
+                y: 15,
+                duration: 1,
+                stagger: 0.4,
+                ease: "power2.out"
             });
         }
 
@@ -406,7 +458,7 @@
                 url: window.location.href
             };
             if (navigator.share) {
-                navigator.share(shareData);
+                navigator.share(shareData).catch(() => {});
             } else {
                 const dummy = document.createElement('input');
                 document.body.appendChild(dummy);
@@ -448,7 +500,10 @@
 
         function openGift() {
             gsap.to("#openingScreen", {
-                opacity: 0, y: -100, duration: 1.2, ease: "expo.inOut",
+                opacity: 0, 
+                y: -100, 
+                duration: 1.2, 
+                ease: "expo.inOut",
                 onComplete: () => {
                     document.getElementById('openingScreen').style.display = 'none';
                     document.getElementById('mainContent').classList.add('visible-content');
